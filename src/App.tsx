@@ -1,207 +1,215 @@
-import { useState } from "react";
+import { useEffect, useState, type FC } from "react";
 import "./index.css";
+import { SportsbookDemo } from "./SportsbookDemo";
 
-type Tab = "home" | "access" | "help";
+type WorkItem = {
+  idx: string;
+  title: string;
+  text: string;
+  meta: string;
+  href: string;
+  external?: boolean;
+};
 
-const cases = [
+const WORKS: WorkItem[] = [
   {
-    tag: "PRODUCTION · TELEGRAM MINI APP",
-    title: "Кабинет внутри Telegram",
-    text: "SPA-кабинет: статус доступа, настройки, помощь менеджерам, auth через Telegram WebApp initData.",
-    stack: ["React", "TypeScript", "Vite", "TWA SDK", "React Router"],
-    href: "https://gifkahub.ru",
+    idx: "01",
+    title: "gifka.pages.dev — React craft",
+    text: "Интерактивная витрина на React: сцена, навигация, атмосфера. Показывает UI-мышление без шаблонного лендинга.",
+    meta: "Craft",
+    href: "https://gifka.pages.dev/",
+    external: true,
   },
   {
-    tag: "PRODUCTION · ADMIN SPA",
-    title: "Админка сервиса",
-    text: "Пользователи, серверы, выдача доступов, аудит, метрики. Формы, фильтры, ролевая навигация.",
-    stack: ["React", "TypeScript", "REST", "Vite"],
-    href: "https://gifkahub.ru",
+    idx: "02",
+    title: "LineDesk — live odds + bet slip",
+    text: "Operator UI: таблица рынков, live-тики коэффициентов, купон ставки. Platform FE под iGaming hiring.",
+    meta: "Demo",
+    href: "#/sportsbook",
   },
   {
-    tag: "MOTION",
-    title: "Ролики на Remotion",
-    text: "Композиции и анимации на React для продуктового контента — тайминг, шрифты, сцены.",
-    stack: ["Remotion", "React", "TypeScript"],
-    href: "https://github.com/35gif",
+    idx: "03",
+    title: "gifkahub.ru — prod Mini App",
+    text: "Боевой кабинет в Telegram: доступ, настройки, помощь, auth через WebApp initData. Рядом — admin SPA.",
+    meta: "Prod",
+    href: "https://gifkahub.ru",
+    external: true,
   },
 ];
 
-export default function App() {
-  const [tab, setTab] = useState<Tab>("home");
+const STACK = [
+  "React 18/19",
+  "TypeScript",
+  "Vite",
+  "React Router",
+  "Telegram Mini Apps",
+  "REST / live UI",
+];
 
-  return (
-    <div className="page">
-      <header className="top">
-        <div className="brand">35gif / frontend</div>
-        <nav className="nav">
-          <a href="#work">Работы</a>
-          <a href="#stack">Стек</a>
-          <a href="#contact">Контакт</a>
-        </nav>
-      </header>
+const STAGE_ROWS = [
+  {
+    league: "Premier League",
+    teams: "Arsenal vs Chelsea",
+    odds: ["1.92", "3.40", "4.10"],
+    hot: 0,
+  },
+  {
+    league: "La Liga",
+    teams: "Real Madrid vs Sevilla",
+    odds: ["1.45", "4.20", "6.50"],
+    hot: 2,
+  },
+  {
+    league: "Serie A",
+    teams: "Inter vs Napoli",
+    odds: ["2.15", "3.25", "3.40"],
+    hot: 1,
+  },
+] as const;
 
-      <section className="hero">
-        <div className="hero-copy">
-          <p className="eyebrow">REACT · TYPESCRIPT · MINI APPS</p>
-          <h1>Фронтенд для кабинетов и Telegram Mini Apps</h1>
-          <p className="lead">
-            Владислав Пашков. Собираю продакшен SPA на React + TS: личные кабинеты,
-            админки и интерфейсы внутри Telegram — без шаблонной вёрстки «ради портфолио».
-          </p>
-          <div className="cta-row">
-            <a className="btn btn-primary" href="mailto:pashkovvlad3@gmail.com">
-              Написать на почту
-            </a>
-            <a className="btn btn-ghost" href="https://github.com/35gif" target="_blank" rel="noreferrer">
-              GitHub
-            </a>
-            <a className="btn btn-ghost" href="https://gifkahub.ru" target="_blank" rel="noreferrer">
-              Живое демо
-            </a>
-          </div>
-        </div>
+function useHashRoute() {
+  const [hash, setHash] = useState(() => window.location.hash || "#/");
+  useEffect(() => {
+    const onHash = () => setHash(window.location.hash || "#/");
+    window.addEventListener("hashchange", onHash);
+    return () => window.removeEventListener("hashchange", onHash);
+  }, []);
+  return hash.replace(/^#/, "") || "/";
+}
 
-        <div className="phone pulse">
-          <div className="phone-inner">
-            <div className="tg-bar">
-              <span className="tg-title">Mini App · demo</span>
-              <span className="pill">online</span>
+const HeroBoard: FC = () => (
+  <a className="stage-link" href="#/sportsbook" aria-label="Открыть LineDesk sportsbook demo">
+    <div className="hero-stage">
+      <span className="stage-label">LineDesk · sportsbook UI</span>
+      <span className="stage-live">Live</span>
+      <div className="stage-board">
+        {STAGE_ROWS.map((row) => (
+          <div className="stage-row" key={row.teams}>
+            <div className="stage-match">
+              <span className="stage-league">{row.league}</span>
+              <span className="stage-teams">{row.teams}</span>
             </div>
-            <div className="screen">
-              {tab === "home" && (
-                <>
-                  <div className="card">
-                    <h3>Привет, это кабинет</h3>
-                    <p>Статус подписки, быстрые действия, переход в помощь — как в боевом Mini App.</p>
-                  </div>
-                  <div className="metric-row">
-                    <div className="metric">
-                      <strong>Active</strong>
-                      <span>доступ</span>
-                    </div>
-                    <div className="metric">
-                      <strong>14д</strong>
-                      <span>до продления</span>
-                    </div>
-                  </div>
-                  <div className="card">
-                    <h3>Следующий шаг</h3>
-                    <p>Подключить / продлить / написать менеджеру — один понятный сценарий.</p>
-                  </div>
-                </>
-              )}
-              {tab === "access" && (
-                <>
-                  <div className="card">
-                    <h3>Доступ</h3>
-                    <p>Ключ / deeplink / инструкция. Копирование + haptic-friendly UX.</p>
-                  </div>
-                  <div className="card">
-                    <h3>Состояние UI</h3>
-                    <p>Loading → success → error без «пустых» экранов.</p>
-                  </div>
-                </>
-              )}
-              {tab === "help" && (
-                <>
-                  <div className="card">
-                    <h3>Помощь</h3>
-                    <p>Список менеджеров, deep-link в чат, ID пользователя для поддержки.</p>
-                  </div>
-                  <div className="card">
-                    <h3>Админ-контур</h3>
-                    <p>Отдельно: пользователи, серверы, аудит — тот же React-стек.</p>
-                  </div>
-                </>
-              )}
-            </div>
-            <div className="tabs">
-              {(
-                [
-                  ["home", "Кабинет"],
-                  ["access", "Доступ"],
-                  ["help", "Помощь"],
-                ] as const
-              ).map(([id, label]) => (
-                <button
-                  key={id}
-                  type="button"
-                  className={`tab${tab === id ? " active" : ""}`}
-                  onClick={() => setTab(id)}
+            <div className="stage-odds">
+              {row.odds.map((odd, i) => (
+                <span
+                  key={`${row.teams}-${odd}`}
+                  className={`stage-odd${row.hot === i ? " is-hot" : ""}`}
                 >
-                  {label}
-                </button>
+                  {odd}
+                </span>
               ))}
             </div>
           </div>
-        </div>
-      </section>
-
-      <section className="section" id="work">
-        <h2>Что уже в проде</h2>
-        <p>Не учебные todo — рабочие интерфейсы. Ниже кейсы и ссылки.</p>
-        <div className="grid">
-          {cases.map((item) => (
-            <a key={item.title} className="case" href={item.href} target="_blank" rel="noreferrer">
-              <div className="tag">{item.tag}</div>
-              <h3>{item.title}</h3>
-              <p>{item.text}</p>
-              <div className="stack">
-                {item.stack.map((s) => (
-                  <span key={s} className="chip">
-                    {s}
-                  </span>
-                ))}
-              </div>
-            </a>
-          ))}
-        </div>
-      </section>
-
-      <section className="section" id="stack">
-        <h2>Стек</h2>
-        <p>То, чем реально закрываю задачи заказчику.</p>
-        <div className="skills">
-          {[
-            "React 18/19",
-            "TypeScript",
-            "Vite",
-            "React Router",
-            "Telegram Mini Apps",
-            "REST API",
-            "адаптив",
-            "Remotion",
-            "Git",
-          ].map((s) => (
-            <span key={s} className="chip">
-              {s}
-            </span>
-          ))}
-        </div>
-      </section>
-
-      <section className="section" id="contact">
-        <div className="contact">
-          <div>
-            <h2>Нужен React-фронт — напишите</h2>
-            <p style={{ color: "var(--muted)", margin: 0 }}>
-              Mini App, кабинет, админка или доработка существующего проекта. Remote, старт сразу.
-            </p>
-          </div>
-          <div className="contact-list">
-            <a href="mailto:pashkovvlad3@gmail.com">pashkovvlad3@gmail.com</a>
-            <a href="https://github.com/35gif" target="_blank" rel="noreferrer">
-              github.com/35gif
-            </a>
-            <a href="https://gifkahub.ru" target="_blank" rel="noreferrer">
-              gifkahub.ru — live demo
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <footer className="footer">© {new Date().getFullYear()} Vlad Pashkov · Frontend React / TypeScript</footer>
+        ))}
+      </div>
     </div>
-  );
-}
+  </a>
+);
+
+const WorkRow: FC<{ item: WorkItem }> = ({ item }) => (
+  <a
+    className="work"
+    href={item.href}
+    target={item.external ? "_blank" : undefined}
+    rel={item.external ? "noreferrer" : undefined}
+  >
+    <span className="work-idx">{item.idx}</span>
+    <div className="work-body">
+      <h3>{item.title}</h3>
+      <p>{item.text}</p>
+    </div>
+    <span className="work-meta">{item.meta}</span>
+  </a>
+);
+
+const PortfolioHome: FC = () => (
+  <div className="page">
+    <header className="top">
+      <div className="brand">
+        35gif <span>/ FE</span>
+      </div>
+      <nav className="nav">
+        <a href="#work">Работы</a>
+        <a href="#/sportsbook">Sportsbook</a>
+        <a href="#contact">Контакт</a>
+      </nav>
+    </header>
+
+    <section className="hero">
+      <div className="hero-copy">
+        <h1 className="hero-name">Vlad Pashkov</h1>
+        <p className="hero-headline">Frontend для sportsbook UI и Mini Apps</p>
+        <p className="hero-lead">
+          React + TypeScript. Live odds, кабинеты, player journeys. Ищу iGaming
+          platform / operator FE.
+        </p>
+        <div className="cta-row">
+          <a className="cta" href="#/sportsbook">
+            Sportsbook demo
+          </a>
+          <a className="cta cta-ghost" href="https://gifka.pages.dev/" target="_blank" rel="noreferrer">
+            Craft
+          </a>
+          <a className="cta cta-ghost" href="mailto:pashkovvlad3@gmail.com">
+            Написать
+          </a>
+        </div>
+      </div>
+      <HeroBoard />
+    </section>
+
+    <section className="section" id="work">
+      <div className="section-head">
+        <h2>Три ссылки для рекрутера</h2>
+        <p>Craft, sportsbook demo и прод. Без слотов и Pixi.</p>
+      </div>
+      <div className="works">
+        {WORKS.map((item) => (
+          <WorkRow key={item.idx} item={item} />
+        ))}
+      </div>
+    </section>
+
+    <section className="section" id="stack">
+      <div className="section-head">
+        <h2>Стек</h2>
+        <p>Platform FE: React/TS, live UI, REST и Telegram WebApp SDK.</p>
+      </div>
+      <div className="stack-line">
+        {STACK.map((s) => (
+          <span key={s}>{s}</span>
+        ))}
+      </div>
+    </section>
+
+    <section className="contact" id="contact">
+      <h2>Открыт к iGaming platform FE</h2>
+      <p>Remote / офис обсуждаемо. Старт сразу. SoftSwiss, SoftGamings, sportsbook & operator UI.</p>
+      <div className="contact-links">
+        <a href="mailto:pashkovvlad3@gmail.com">pashkovvlad3@gmail.com</a>
+        <a href="https://github.com/35gif" target="_blank" rel="noreferrer">
+          github.com/35gif
+        </a>
+        <a href="#/sportsbook">#/sportsbook</a>
+        <a href="https://gifkahub.ru" target="_blank" rel="noreferrer">
+          gifkahub.ru
+        </a>
+        <a href="https://gifka.pages.dev/" target="_blank" rel="noreferrer">
+          gifka.pages.dev
+        </a>
+      </div>
+    </section>
+
+    <footer className="footer">
+      © {new Date().getFullYear()} Vlad Pashkov · Frontend React / TypeScript
+    </footer>
+  </div>
+);
+
+const App: FC = () => {
+  const route = useHashRoute();
+  if (route.startsWith("/sportsbook")) return <SportsbookDemo />;
+  return <PortfolioHome />;
+};
+
+export default App;
