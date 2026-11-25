@@ -1,5 +1,5 @@
 import { useEffect, useState, type FC } from "react";
-import { AsciiOverlay } from "./AsciiOverlay";
+import { GlyphField } from "./GlyphField";
 import "./index.css";
 import { SportsbookDemo } from "./SportsbookDemo";
 
@@ -15,23 +15,23 @@ type WorkItem = {
 const WORKS: WorkItem[] = [
   {
     idx: "01",
-    title: "gifka.pages.dev — React craft",
-    text: "Интерактивная витрина на React: сцена, навигация, атмосфера. Показывает UI-мышление без шаблонного лендинга.",
+    title: "gifka.pages.dev",
+    text: "React-craft витрина: сцена, навигация, атмосфера. Не лендинг из шаблона — пространство.",
     meta: "Craft",
     href: "https://gifka.pages.dev/",
     external: true,
   },
   {
     idx: "02",
-    title: "LineDesk — live odds + bet slip",
-    text: "Operator UI: таблица рынков, live-тики коэффициентов, купон ставки. Platform FE под iGaming hiring.",
+    title: "LineDesk",
+    text: "Live odds + bet slip. Operator UI под iGaming hiring — таблица рынков и купон.",
     meta: "Demo",
     href: "#/sportsbook",
   },
   {
     idx: "03",
-    title: "gifkahub.ru — prod Mini App",
-    text: "Боевой кабинет в Telegram: доступ, настройки, помощь, auth через WebApp initData. Рядом — admin SPA.",
+    title: "gifkahub.ru",
+    text: "Прод Mini App: кабинет, доступ, admin SPA, Telegram WebApp initData.",
     meta: "Prod",
     href: "https://gifkahub.ru",
     external: true,
@@ -78,33 +78,51 @@ function useHashRoute() {
   return hash.replace(/^#/, "") || "/";
 }
 
-const HeroBoard: FC = () => (
-  <a className="stage-link" href="#/sportsbook" aria-label="Открыть LineDesk sportsbook demo">
-    <div className="hero-stage">
-      <span className="stage-label">LineDesk · sportsbook UI</span>
-      <span className="stage-live">Live</span>
-      <div className="stage-board">
-        {STAGE_ROWS.map((row) => (
-          <div className="stage-row" key={row.teams}>
-            <div className="stage-match">
-              <span className="stage-league">{row.league}</span>
-              <span className="stage-teams">{row.teams}</span>
-            </div>
-            <div className="stage-odds">
-              {row.odds.map((odd, i) => (
-                <span
-                  key={`${row.teams}-${odd}`}
-                  className={`stage-odd${row.hot === i ? " is-hot" : ""}`}
-                >
-                  {odd}
-                </span>
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  </a>
+const HeroArt: FC = () => (
+  <div className="hero-art" aria-hidden>
+    <svg viewBox="0 0 800 700" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M120 180c80-90 210-110 320-40 70 45 90 120 40 180-55 70-160 55-210 10-40-35-20-95 35-110 40-12 85 10 95 55"
+        stroke="#f0c419"
+        strokeWidth="28"
+        strokeLinecap="round"
+        opacity="0.85"
+      />
+      <path
+        d="M380 120c40-20 140-10 190 70 55 90 20 190-70 230-95 42-185-20-170-95 12-55 75-70 120-40"
+        stroke="#ff3b6b"
+        strokeWidth="18"
+        strokeLinecap="round"
+        opacity="0.7"
+      />
+      <path
+        d="M90 420c120 20 260 90 340 190"
+        stroke="#5cffb0"
+        strokeWidth="12"
+        strokeLinecap="round"
+        opacity="0.45"
+      />
+      <circle cx="560" cy="210" r="54" stroke="#ece6da" strokeWidth="3" opacity="0.25" />
+      <path
+        d="M640 480c-30 60-110 110-200 120"
+        stroke="#f0c419"
+        strokeWidth="8"
+        strokeLinecap="round"
+        opacity="0.35"
+      />
+      <text
+        x="70"
+        y="640"
+        fill="#ece6da"
+        fillOpacity="0.12"
+        fontFamily="Unbounded, sans-serif"
+        fontSize="120"
+        fontWeight="800"
+      >
+        JSR
+      </text>
+    </svg>
+  </div>
 );
 
 const WorkRow: FC<{ item: WorkItem }> = ({ item }) => (
@@ -123,58 +141,87 @@ const WorkRow: FC<{ item: WorkItem }> = ({ item }) => (
   </a>
 );
 
+const OddsStrip: FC = () => (
+  <a className="board-link" href="#/sportsbook" aria-label="Открыть LineDesk demo">
+    <div className="board">
+      <div className="board-top">
+        <span>LineDesk · sportsbook UI</span>
+        <strong>live</strong>
+      </div>
+      <div className="board-rows">
+        {STAGE_ROWS.map((row) => (
+          <div className="board-row" key={row.teams}>
+            <div>
+              <span className="board-league">{row.league}</span>
+              <span className="board-teams">{row.teams}</span>
+            </div>
+            <div className="board-odds">
+              {row.odds.map((odd, i) => (
+                <span
+                  key={`${row.teams}-${odd}`}
+                  className={`board-odd${row.hot === i ? " is-hot" : ""}`}
+                >
+                  {odd}
+                </span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </a>
+);
+
 const PortfolioHome: FC = () => (
-  <div className="page" id="app-root">
+  <div className="page">
     <header className="top">
       <div className="brand">
-        35gif <span>/ FE</span>
+        35gif <em>/ fe</em>
       </div>
       <nav className="nav">
-        <a href="#work">Работы</a>
+        <a href="#work">Work</a>
         <a href="#/sportsbook">Sportsbook</a>
-        <a href="#contact">Контакт</a>
+        <a href="#contact">Contact</a>
       </nav>
     </header>
 
     <section className="hero">
+      <HeroArt />
       <div className="hero-copy">
+        <p className="hero-kicker">React · TypeScript · iGaming FE</p>
         <h1 className="hero-name">Vlad Pashkov</h1>
-        <p className="hero-headline">Frontend для sportsbook UI и Mini Apps</p>
         <p className="hero-lead">
-          React + TypeScript. Live odds, кабинеты, player journeys. Ищу iGaming
-          platform / operator FE.
+          Делаю интерфейсы, в которых чувствуется рука: sportsbook UI, кабинеты,
+          Mini Apps.
         </p>
         <div className="cta-row">
           <a className="cta" href="#/sportsbook">
-            Sportsbook demo
+            Open demo
           </a>
           <a className="cta cta-ghost" href="https://gifka.pages.dev/" target="_blank" rel="noreferrer">
-            Craft
-          </a>
-          <a className="cta cta-ghost" href="mailto:pashkovvlad3@gmail.com">
-            Написать
+            Смотреть craft →
           </a>
         </div>
       </div>
-      <HeroBoard />
     </section>
 
     <section className="section" id="work">
       <div className="section-head">
-        <h2>Три ссылки для рекрутера</h2>
-        <p>Craft, sportsbook demo и прод. Без слотов и Pixi.</p>
+        <h2>Работы</h2>
+        <p>Три точки входа. Слоты и Pixi — не мой трек.</p>
       </div>
       <div className="works">
         {WORKS.map((item) => (
           <WorkRow key={item.idx} item={item} />
         ))}
       </div>
+      <OddsStrip />
     </section>
 
     <section className="section" id="stack">
       <div className="section-head">
         <h2>Стек</h2>
-        <p>Platform FE: React/TS, live UI, REST и Telegram WebApp SDK.</p>
+        <p>Platform FE без лишнего шума.</p>
       </div>
       <div className="stack-line">
         {STACK.map((s) => (
@@ -184,14 +231,13 @@ const PortfolioHome: FC = () => (
     </section>
 
     <section className="contact" id="contact">
-      <h2>Открыт к iGaming platform FE</h2>
-      <p>Remote / офис обсуждаемо. Старт сразу. SoftSwiss, SoftGamings, sportsbook & operator UI.</p>
+      <h2>Пиши, если ищешь FE</h2>
+      <p>Remote / офис. Старт сразу. SoftSwiss, SoftGamings, sportsbook & operator UI.</p>
       <div className="contact-links">
         <a href="mailto:pashkovvlad3@gmail.com">pashkovvlad3@gmail.com</a>
         <a href="https://github.com/35gif" target="_blank" rel="noreferrer">
           github.com/35gif
         </a>
-        <a href="#/sportsbook">#/sportsbook</a>
         <a href="https://gifkahub.ru" target="_blank" rel="noreferrer">
           gifkahub.ru
         </a>
@@ -201,9 +247,7 @@ const PortfolioHome: FC = () => (
       </div>
     </section>
 
-    <footer className="footer">
-      © {new Date().getFullYear()} Vlad Pashkov · Frontend React / TypeScript · ASCII toggle ↓
-    </footer>
+    <footer className="footer">© {new Date().getFullYear()} Vlad Pashkov</footer>
   </div>
 );
 
@@ -212,17 +256,15 @@ const App: FC = () => {
   if (route.startsWith("/sportsbook")) {
     return (
       <>
-        <div id="app-root">
-          <SportsbookDemo />
-        </div>
-        <AsciiOverlay />
+        <SportsbookDemo />
+        <GlyphField />
       </>
     );
   }
   return (
     <>
       <PortfolioHome />
-      <AsciiOverlay />
+      <GlyphField />
     </>
   );
 };
