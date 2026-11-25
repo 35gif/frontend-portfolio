@@ -1,137 +1,26 @@
-.depth {
-  --deep: #020812;
-  --mid: #0a2438;
-  --biolum: #6ef0ff;
-  --foam: #c9f4ff;
+.depth-room {
   position: relative;
-  min-block-size: inherit;
-  overflow: clip;
-  color: var(--foam);
-  background:
-    radial-gradient(800px 500px at 50% -10%, rgba(40, 120, 160, 0.35), transparent 55%),
-    linear-gradient(180deg, #061525 0%, var(--mid) 35%, var(--deep) 100%);
-  font-family: "Outfit", "Segoe UI", sans-serif;
-  padding: clamp(1.5rem, 4vw, 3rem);
+  min-block-size: 100dvh;
+  background: #01060c;
 }
 
-.depth-rays {
-  position: absolute;
-  inset: 0;
+.depth-canvas {
+  display: block;
   width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 0;
+  height: 100dvh;
+  touch-action: none;
+  cursor: none;
 }
 
-.depth-fog {
+.depth-sig {
   position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 1;
-  background:
-    radial-gradient(60% 40% at 50% 100%, rgba(2, 8, 18, 0.85), transparent 70%),
-    linear-gradient(180deg, transparent 40%, rgba(2, 8, 18, 0.55) 100%);
-}
-
-.depth-top,
-.depth-main {
-  position: relative;
-  z-index: 2;
-}
-
-.depth-top {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  font-family: "IBM Plex Mono", ui-monospace, monospace;
-  font-size: 0.72rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: color-mix(in oklab, var(--biolum) 55%, white);
-  margin-bottom: clamp(2rem, 8vh, 4.5rem);
-  opacity: 0.8;
-}
-
-.depth-kicker {
-  margin: 0 0 0.85rem;
-  font-family: "IBM Plex Mono", ui-monospace, monospace;
-  font-size: 0.75rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--biolum);
-  text-shadow: 0 0 18px rgba(110, 240, 255, 0.35);
-}
-
-.depth-name {
+  right: 1rem;
+  bottom: 1rem;
   margin: 0;
-  font-weight: 700;
-  font-size: clamp(3rem, 11vw, 7rem);
-  line-height: 0.9;
-  letter-spacing: -0.04em;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  text-wrap: balance;
-  color: var(--foam);
-  text-shadow:
-    0 0 40px rgba(110, 240, 255, 0.25),
-    0 20px 60px rgba(0, 0, 0, 0.45);
-}
-
-.depth-phrase {
-  margin: 1.35rem 0 2.25rem;
-  max-inline-size: 32ch;
-  color: color-mix(in oklab, var(--foam) 65%, #4a7a90);
-  font-size: 1.1rem;
-  text-wrap: pretty;
-}
-
-.depth-works {
-  display: grid;
-  gap: 0.75rem;
-  max-inline-size: 34rem;
-  margin-bottom: 2rem;
-}
-
-.depth-work {
-  display: grid;
-  gap: 0.2rem;
-  padding: 0.95rem 0;
-  border-top: 1px solid rgba(110, 240, 255, 0.18);
-  text-decoration: none;
-  color: inherit;
-  transition: color 0.2s ease, border-color 0.2s ease;
-}
-
-.depth-work:last-child {
-  border-bottom: 1px solid rgba(110, 240, 255, 0.18);
-}
-
-.depth-work strong {
-  font-size: 1.15rem;
-  letter-spacing: -0.02em;
-}
-
-.depth-work span {
-  font-size: 0.9rem;
-  color: color-mix(in oklab, var(--foam) 45%, #3d6a80);
-}
-
-.depth-work:hover,
-.depth-work:focus-visible {
-  color: var(--biolum);
-  border-color: color-mix(in oklab, var(--biolum) 50%, transparent);
-  outline: none;
-}
-
-.depth-mail {
-  font-family: "IBM Plex Mono", ui-monospace, monospace;
-  font-size: 0.85rem;
-  color: var(--biolum);
-  text-decoration: none;
-  border-bottom: 1px solid color-mix(in oklab, var(--biolum) 40%, transparent);
-}
-
-.depth-mail:hover,
-.depth-mail:focus-visible {
-  border-bottom-color: var(--biolum);
-  outline: none;
+  color: rgba(150, 210, 230, 0.45);
+  pointer-events: none;
 }

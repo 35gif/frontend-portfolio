@@ -1,4 +1,11 @@
 import { useEffect, useState, type FC } from "react";
+import {
+  isLabMuted,
+  playLabVoice,
+  setLabMuted,
+  stopLabVoice,
+  type LabVoice,
+} from "./audio/LabAudio";
 import "./lab.css";
 import { CaseDesk } from "./samples/CaseDesk";
 import { DepthTank } from "./samples/DepthTank";
@@ -8,17 +15,18 @@ import { WaxWorld } from "./samples/WaxWorld";
 
 type SampleId = 1 | 2 | 3 | 4 | 5;
 
-const SAMPLES: {
+const CHAMBERS: {
   id: SampleId;
+  voice: LabVoice;
   code: string;
-  axes: string;
+  feel: string;
   node: FC;
 }[] = [
-  { id: 1, code: "WAXWORLD", axes: "CLAY × uncanny", node: WaxWorld },
-  { id: 2, code: "DEPTH TANK", axes: "ABYSS × immersion", node: DepthTank },
-  { id: 3, code: "CASE DESK", axes: "CASE × gifka", node: CaseDesk },
-  { id: 4, code: "GLYPH MATTER", axes: "GLYPH × material", node: GlyphMatter },
-  { id: 5, code: "2.5D DIORAMA", axes: "painterly × parallax", node: Diorama },
+  { id: 1, voice: "wax", code: "WAX", feel: "пластилин / тепло", node: WaxWorld },
+  { id: 2, voice: "depth", code: "DEPTH", feel: "погружение / гул", node: DepthTank },
+  { id: 3, voice: "case", code: "CASE", feel: "досье / нить", node: CaseDesk },
+  { id: 4, voice: "glyph", code: "GLYPH", feel: "символ как материя", node: GlyphMatter },
+  { id: 5, voice: "dio", code: "DIORAMA", feel: "кадр / сумерки", node: Diorama },
 ];
 
 function parseLabHash(hash: string): SampleId {
@@ -33,6 +41,8 @@ export const StyleLab: FC = () => {
   const [active, setActive] = useState<SampleId>(() =>
     parseLabHash(window.location.hash || "#/lab/1")
   );
+  const [muted, setMuted] = useState(true);
+  const [entered, setEntered] = useState(false);
 
   useEffect(() => {
     const onHash = () => setActive(parseLabHash(window.location.hash || "#/lab/1"));
@@ -43,40 +53,79 @@ export const StyleLab: FC = () => {
     return () => window.removeEventListener("hashchange", onHash);
   }, []);
 
+  useEffect(() => {
+    if (!entered) return;
+    const chamber = CHAMBERS.find((c) => c.id === active);
+    if (!chamber) return;
+    void playLabVoice(chamber.voice);
+    return () => stopLabVoice();
+  }, [active, entered]);
+
   const onSelect = (id: SampleId) => {
     window.location.hash = `#/lab/${id}`;
   };
 
-  const Sample = SAMPLES.find((s) => s.id === active)?.node ?? WaxWorld;
+  const onEnter = async () => {
+    setEntered(true);
+    setMuted(false);
+    await setLabMuted(false);
+  };
+
+  const onToggleAudio = async () => {
+    const next = !isLabMuted();
+    await setLabMuted(next);
+    setMuted(next);
+  };
+
+  const Sample = CHAMBERS.find((s) => s.id === active)?.node ?? WaxWorld;
 
   return (
     <div className="lab-shell">
-      <div className="lab-bar">
-        <div className="lab-bar-top">
-          <div className="lab-title">
-            <strong>35gif STYLE LAB</strong> · образцы, не резюме
-          </div>
-          <div className="lab-note">keep / mutate / kill → потом манифест</div>
+      {!entered && (
+        <div className="lab-gate">
+          <p className="lab-gate-kicker">35gif · portrait lab</p>
+          <h1 className="lab-gate-title">пять комнат характера</h1>
+          <p className="lab-gate-text">
+            не резюме. визуал + procedural sound. зайди, почувствуй, скажи keep / mutate / kill.
+          </p>
+          <button type="button" className="lab-gate-btn" onClick={() => void onEnter()}>
+            войти со звуком
+          </button>
+          <button
+            type="button"
+            className="lab-gate-btn lab-gate-btn-quiet"
+            onClick={() => setEntered(true)}
+          >
+            войти без звука
+          </button>
         </div>
-        <div className="lab-tabs" role="tablist" aria-label="Style samples">
-          {SAMPLES.map((s) => (
-            <button
-              key={s.id}
-              type="button"
-              role="tab"
-              aria-selected={active === s.id}
-              className={`lab-tab${active === s.id ? " is-active" : ""}`}
-              onClick={() => onSelect(s.id)}
-            >
-              0{s.id} {s.code}
-              <small>{s.axes}</small>
+      )}
+
+      {entered && (
+        <>
+          <nav className="lab-rail" aria-label="Chambers">
+            {CHAMBERS.map((c) => (
+              <button
+                key={c.id}
+                type="button"
+                className={`lab-chamber${active === c.id ? " is-active" : ""}`}
+                onClick={() => onSelect(c.id)}
+                title={c.feel}
+              >
+                <span>0{c.id}</span>
+                <strong>{c.code}</strong>
+                <em>{c.feel}</em>
+              </button>
+            ))}
+            <button type="button" className="lab-audio" onClick={() => void onToggleAudio()}>
+              {muted ? "sound off" : "sound on"}
             </button>
-          ))}
-        </div>
-      </div>
-      <div className="lab-stage" role="tabpanel">
-        <Sample />
-      </div>
+          </nav>
+          <div className="lab-stage">
+            <Sample />
+          </div>
+        </>
+      )}
     </div>
   );
 };

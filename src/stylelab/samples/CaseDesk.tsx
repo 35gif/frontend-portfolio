@@ -1,50 +1,75 @@
-import type { FC } from "react";
-import { LAB_PROFILE, LAB_WORKS } from "../content";
+import { useEffect, useRef, useState, type FC } from "react";
 import "./case.css";
 
-export const CaseDesk: FC = () => (
-  <div className="case">
-    <svg className="case-thread" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden>
-      <path d="M8 12 L42 38 L28 62 L78 48 L92 88" />
-    </svg>
-    <header className="case-top">
-      <span className="case-stamp">CASE 35</span>
-      <span>03 · CASE DESK · gifka DNA</span>
-    </header>
-    <main className="case-main">
-      <div className="case-pin" aria-hidden />
-      <p className="case-kicker">
-        <span className="case-tty">tty1 — root@box</span>
-        досье открыто
-      </p>
-      <h1 className="case-name">{LAB_PROFILE.name}</h1>
-      <p className="case-phrase">
-        <span className="case-prompt">&gt;</span> {LAB_PROFILE.phrase}
-        <span className="case-cursor" aria-hidden>
-          █
-        </span>
-      </p>
-      <section className="case-board">
-        <h2>улики / работы</h2>
-        <div className="case-evidence">
-          {LAB_WORKS.map((w, i) => (
-            <a
-              key={w.title}
-              className={`case-card tilt-${(i % 3) + 1}`}
-              href={w.href}
-              target={w.external ? "_blank" : undefined}
-              rel={w.external ? "noreferrer" : undefined}
-            >
-              <span className="case-idx">0{i + 1}</span>
-              <strong>{w.title}</strong>
-              <span>{w.text}</span>
-            </a>
-          ))}
+const NOTES = [
+  "субъект вошёл сам",
+  "нить ведёт к столу",
+  "HANDYCAM пишет вход",
+  "RADIO.EXE молчит",
+  "лицо не сходится",
+  "CASE 35 · открыто",
+];
+
+export const CaseDesk: FC = () => {
+  const [active, setActive] = useState(0);
+  const [typed, setTyped] = useState("");
+  const boardRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const text = NOTES[active];
+    setTyped("");
+    let i = 0;
+    const id = window.setInterval(() => {
+      i += 1;
+      setTyped(text.slice(0, i));
+      if (i >= text.length) window.clearInterval(id);
+    }, 42);
+    return () => window.clearInterval(id);
+  }, [active]);
+
+  useEffect(() => {
+    const board = boardRef.current;
+    if (!board) return;
+    const onMove = (e: PointerEvent) => {
+      const rect = board.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width - 0.5) * 8;
+      const y = ((e.clientY - rect.top) / rect.height - 0.5) * 6;
+      board.style.setProperty("--rx", `${-y}deg`);
+      board.style.setProperty("--ry", `${x}deg`);
+    };
+    window.addEventListener("pointermove", onMove, { passive: true });
+    return () => window.removeEventListener("pointermove", onMove);
+  }, []);
+
+  return (
+    <div className="case-room">
+      <div className="case-grain" aria-hidden />
+      <div className="case-board" ref={boardRef}>
+        <svg className="case-thread" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden>
+          <path d="M12 18 L38 34 L30 58 L70 46 L86 78" />
+        </svg>
+        {NOTES.map((note, i) => (
+          <button
+            key={note}
+            type="button"
+            className={`case-pin-note n${i}${active === i ? " is-on" : ""}`}
+            onClick={() => setActive(i)}
+            style={{ ["--tilt" as string]: `${(i % 2 === 0 ? -1 : 1) * (1.2 + i * 0.4)}deg` }}
+          >
+            <span className="case-dot" />
+            {note}
+          </button>
+        ))}
+        <div className="case-terminal">
+          <div className="case-tty">tty1 — root@35gif</div>
+          <div className="case-line">
+            <span>&gt; </span>
+            {typed}
+            <span className="case-blink">█</span>
+          </div>
         </div>
-      </section>
-      <a className="case-mail" href={`mailto:${LAB_PROFILE.email}`}>
-        contact::{LAB_PROFILE.email}
-      </a>
-    </main>
-  </div>
-);
+      </div>
+      <p className="case-sig">35gif / 03 · жми улики</p>
+    </div>
+  );
+};
