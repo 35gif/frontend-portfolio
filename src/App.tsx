@@ -1,4 +1,5 @@
 import { useEffect, useState, type FC } from "react";
+import { AsciiOverlay } from "./AsciiOverlay";
 import "./index.css";
 import { SportsbookDemo } from "./SportsbookDemo";
 
@@ -123,7 +124,7 @@ const WorkRow: FC<{ item: WorkItem }> = ({ item }) => (
 );
 
 const PortfolioHome: FC = () => (
-  <div className="page">
+  <div className="page" id="app-root">
     <header className="top">
       <div className="brand">
         35gif <span>/ FE</span>
@@ -201,15 +202,29 @@ const PortfolioHome: FC = () => (
     </section>
 
     <footer className="footer">
-      © {new Date().getFullYear()} Vlad Pashkov · Frontend React / TypeScript
+      © {new Date().getFullYear()} Vlad Pashkov · Frontend React / TypeScript · ASCII toggle ↓
     </footer>
   </div>
 );
 
 const App: FC = () => {
   const route = useHashRoute();
-  if (route.startsWith("/sportsbook")) return <SportsbookDemo />;
-  return <PortfolioHome />;
+  if (route.startsWith("/sportsbook")) {
+    return (
+      <>
+        <div id="app-root">
+          <SportsbookDemo />
+        </div>
+        <AsciiOverlay />
+      </>
+    );
+  }
+  return (
+    <>
+      <PortfolioHome />
+      <AsciiOverlay />
+    </>
+  );
 };
 
 export default App;
