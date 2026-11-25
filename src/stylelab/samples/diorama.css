@@ -1,7 +1,7 @@
 .dio-room {
   position: relative;
   min-block-size: 100dvh;
-  background: #0c0912;
+  background: #0a0810;
 }
 
 .dio-canvas {
@@ -11,15 +11,25 @@
   touch-action: none;
 }
 
-.dio-sig {
+.dio-caption {
   position: absolute;
-  right: 1rem;
-  bottom: 1rem;
-  margin: 0;
-  font-family: "IBM Plex Mono", monospace;
-  font-size: 0.7rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: rgba(232, 165, 152, 0.45);
+  left: clamp(1rem, 3vw, 2rem);
+  bottom: clamp(1rem, 3vw, 2rem);
+  display: grid;
+  gap: 0.25rem;
   pointer-events: none;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+}
+
+.dio-caption span {
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(232, 165, 152, 0.55);
+}
+
+.dio-caption strong {
+  font-family: "Literata", Georgia, serif;
+  font-size: clamp(1.1rem, 2.5vw, 1.55rem);
+  color: rgba(244, 235, 227, 0.92);
 }

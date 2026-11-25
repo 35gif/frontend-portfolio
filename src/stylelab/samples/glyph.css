@@ -1,7 +1,7 @@
 .glyph-room {
   position: relative;
   min-block-size: 100dvh;
-  background: #050806;
+  background: #04060a;
 }
 
 .glyph-canvas {
@@ -12,15 +12,26 @@
   cursor: crosshair;
 }
 
-.glyph-sig {
+.glyph-caption {
   position: absolute;
-  right: 1rem;
-  bottom: 1rem;
-  margin: 0;
-  font-family: "IBM Plex Mono", monospace;
-  font-size: 0.7rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: rgba(125, 255, 179, 0.4);
+  left: clamp(1rem, 3vw, 2rem);
+  bottom: clamp(1rem, 3vw, 2rem);
+  display: grid;
+  gap: 0.25rem;
   pointer-events: none;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  background: linear-gradient(90deg, rgba(4, 6, 10, 0.75), transparent);
+  padding: 0.5rem 1rem 0.5rem 0;
+}
+
+.glyph-caption span {
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(125, 255, 179, 0.55);
+}
+
+.glyph-caption strong {
+  font-size: clamp(0.95rem, 2vw, 1.25rem);
+  color: rgba(200, 255, 220, 0.9);
 }

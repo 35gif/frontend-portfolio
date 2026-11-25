@@ -22,11 +22,11 @@ const CHAMBERS: {
   feel: string;
   node: FC;
 }[] = [
-  { id: 1, voice: "wax", code: "WAX", feel: "пластилин / тепло", node: WaxWorld },
-  { id: 2, voice: "depth", code: "DEPTH", feel: "погружение / гул", node: DepthTank },
-  { id: 3, voice: "case", code: "CASE", feel: "досье / нить", node: CaseDesk },
-  { id: 4, voice: "glyph", code: "GLYPH", feel: "символ как материя", node: GlyphMatter },
-  { id: 5, voice: "dio", code: "DIORAMA", feel: "кадр / сумерки", node: Diorama },
+  { id: 1, voice: "wax", code: "WAX", feel: "Hylics clay", node: WaxWorld },
+  { id: 2, voice: "depth", code: "DEPTH", feel: "Abyssal dive", node: DepthTank },
+  { id: 3, voice: "case", code: "CASE", feel: "gifka desk", node: CaseDesk },
+  { id: 4, voice: "glyph", code: "GLYPH", feel: "Ansenjeo world", node: GlyphMatter },
+  { id: 5, voice: "dio", code: "DIORAMA", feel: "2.5D dusk", node: Diorama },
 ];
 
 function parseLabHash(hash: string): SampleId {
@@ -83,21 +83,24 @@ export const StyleLab: FC = () => {
     <div className="lab-shell">
       {!entered && (
         <div className="lab-gate">
-          <p className="lab-gate-kicker">35gif · portrait lab</p>
-          <h1 className="lab-gate-title">пять комнат характера</h1>
+          <p className="lab-gate-kicker">35gif · visual portrait lab</p>
+          <h1 className="lab-gate-title">комнаты вайба</h1>
           <p className="lab-gate-text">
-            не резюме. визуал + procedural sound. зайди, почувствуй, скажи keep / mutate / kill.
+            почти прямой визуал с твоих рефов: Hylics / abyss / gifka / ASCII-world / 2.5D.
+            звук procedural. после прохода — keep / mutate / kill.
           </p>
-          <button type="button" className="lab-gate-btn" onClick={() => void onEnter()}>
-            войти со звуком
-          </button>
-          <button
-            type="button"
-            className="lab-gate-btn lab-gate-btn-quiet"
-            onClick={() => setEntered(true)}
-          >
-            войти без звука
-          </button>
+          <div className="lab-gate-actions">
+            <button type="button" className="lab-gate-btn" onClick={() => void onEnter()}>
+              войти со звуком
+            </button>
+            <button
+              type="button"
+              className="lab-gate-btn lab-gate-btn-quiet"
+              onClick={() => setEntered(true)}
+            >
+              без звука
+            </button>
+          </div>
         </div>
       )}
 

@@ -1,7 +1,7 @@
 .depth-room {
   position: relative;
   min-block-size: 100dvh;
-  background: #01060c;
+  background: #020910;
 }
 
 .depth-canvas {
@@ -9,18 +9,29 @@
   width: 100%;
   height: 100dvh;
   touch-action: none;
-  cursor: none;
 }
 
-.depth-sig {
+.depth-caption {
   position: absolute;
-  right: 1rem;
-  bottom: 1rem;
-  margin: 0;
-  font-family: "IBM Plex Mono", monospace;
-  font-size: 0.7rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: rgba(150, 210, 230, 0.45);
+  left: clamp(1rem, 3vw, 2rem);
+  bottom: clamp(1rem, 3vw, 2rem);
+  display: grid;
+  gap: 0.25rem;
   pointer-events: none;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  text-shadow: 0 0 20px rgba(110, 240, 255, 0.25);
+}
+
+.depth-caption span {
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(150, 230, 255, 0.55);
+}
+
+.depth-caption strong {
+  font-family: "Outfit", sans-serif;
+  font-size: clamp(1.1rem, 2.5vw, 1.55rem);
+  font-weight: 700;
+  color: rgba(210, 245, 255, 0.92);
 }
