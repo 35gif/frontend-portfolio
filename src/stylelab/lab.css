@@ -1,0 +1,95 @@
+.lab-shell {
+  --lab-bar: #0a0a0c;
+  --lab-ink: #e8e4dc;
+  --lab-mute: #8a8680;
+  --lab-line: rgba(232, 228, 220, 0.14);
+  min-block-size: 100dvh;
+  background: #050506;
+  color: var(--lab-ink);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+}
+
+.lab-bar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  display: grid;
+  gap: 0.65rem;
+  padding: 0.75rem clamp(0.85rem, 3vw, 1.5rem) 0.85rem;
+  background: color-mix(in oklab, var(--lab-bar) 92%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--lab-line);
+}
+
+.lab-bar-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+}
+
+.lab-title {
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--lab-mute);
+}
+
+.lab-title strong {
+  color: var(--lab-ink);
+  font-weight: 600;
+}
+
+.lab-note {
+  font-size: 0.68rem;
+  color: var(--lab-mute);
+  letter-spacing: 0.04em;
+}
+
+.lab-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.lab-tab {
+  appearance: none;
+  border: 1px solid var(--lab-line);
+  background: transparent;
+  color: var(--lab-mute);
+  font: inherit;
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.45rem 0.6rem;
+  cursor: pointer;
+  text-align: left;
+  line-height: 1.25;
+}
+
+.lab-tab small {
+  display: block;
+  margin-top: 0.15rem;
+  opacity: 0.75;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  font-size: 0.62rem;
+}
+
+.lab-tab:hover,
+.lab-tab:focus-visible {
+  color: var(--lab-ink);
+  border-color: color-mix(in oklab, var(--lab-ink) 35%, transparent);
+  outline: none;
+}
+
+.lab-tab.is-active {
+  color: #050506;
+  background: var(--lab-ink);
+  border-color: var(--lab-ink);
+}
+
+.lab-stage {
+  min-block-size: calc(100dvh - 7rem);
+}

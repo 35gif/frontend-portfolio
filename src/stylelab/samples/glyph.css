@@ -1,0 +1,138 @@
+.glyph {
+  --bg: #050706;
+  --panel: #0c1210;
+  --term: #7dffb3;
+  --mute: #6f8578;
+  --ink: #d7efe3;
+  min-block-size: inherit;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  padding: clamp(1.25rem, 4vw, 2.75rem);
+}
+
+.glyph-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--mute);
+  margin-bottom: 1.5rem;
+}
+
+.glyph-hero {
+  position: relative;
+  border: 1px solid rgba(125, 255, 179, 0.22);
+  background: var(--panel);
+  min-block-size: min(52vh, 420px);
+  overflow: clip;
+  margin-bottom: 1.5rem;
+}
+
+.glyph-panel {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.glyph-hero-copy {
+  position: relative;
+  z-index: 1;
+  padding: clamp(1.25rem, 4vw, 2.25rem);
+  max-inline-size: 36rem;
+  background: linear-gradient(90deg, rgba(5, 7, 6, 0.82), rgba(5, 7, 6, 0.35) 70%, transparent);
+}
+
+.glyph-kicker {
+  margin: 0 0 0.75rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--term);
+}
+
+.glyph-name {
+  margin: 0;
+  font-size: clamp(2.4rem, 7vw, 4.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+.glyph-phrase {
+  margin: 1rem 0 0;
+  max-inline-size: 34ch;
+  color: var(--mute);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.glyph-works {
+  display: grid;
+  gap: 0.85rem;
+  margin-bottom: 1.75rem;
+}
+
+@media (min-width: 800px) {
+  .glyph-works {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.glyph-work {
+  display: grid;
+  grid-template-rows: 120px auto;
+  border: 1px solid rgba(125, 255, 179, 0.18);
+  background: var(--panel);
+  text-decoration: none;
+  color: inherit;
+  overflow: clip;
+  transition: border-color 0.2s ease;
+}
+
+.glyph-work:hover,
+.glyph-work:focus-visible {
+  border-color: color-mix(in oklab, var(--term) 55%, transparent);
+  outline: none;
+}
+
+.glyph-work-mat {
+  position: relative;
+  min-block-size: 120px;
+  border-bottom: 1px solid rgba(125, 255, 179, 0.12);
+}
+
+.glyph-work-copy {
+  display: grid;
+  gap: 0.3rem;
+  padding: 0.85rem 0.9rem;
+}
+
+.glyph-work-copy strong {
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+}
+
+.glyph-work-copy span {
+  font-size: 0.75rem;
+  color: var(--mute);
+  line-height: 1.4;
+}
+
+.glyph-mail {
+  font-size: 0.82rem;
+  color: var(--term);
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in oklab, var(--term) 35%, transparent);
+}
+
+.glyph-mail:hover,
+.glyph-mail:focus-visible {
+  border-bottom-color: var(--term);
+  outline: none;
+}
