@@ -102,7 +102,7 @@ function compile(gl: WebGL2RenderingContext, type: number, src: string) {
 export const GlyphField: FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mouse = useRef({ x: 0, y: 0 });
-  const [on, setOn] = useState(true);
+  const [on, setOn] = useState(false);
 
   useEffect(() => {
     if (!on) return;
@@ -191,7 +191,7 @@ export const GlyphField: FC = () => {
       gl.uniform2f(uRes, canvas.width, canvas.height);
       gl.uniform2f(uMouse, mouse.current.x, mouse.current.y);
       gl.uniform1f(uTime, reduced ? 0 : t * 0.001);
-      gl.uniform1f(uCell, Math.max(10, Math.round(12 * Math.min(window.devicePixelRatio || 1, 1.5))));
+      gl.uniform1f(uCell, Math.max(14, Math.round(18 * Math.min(window.devicePixelRatio || 1, 1.5))));
       gl.uniform1f(uCols, atlas.cols);
       gl.uniform1f(uRows, atlas.rows);
       gl.uniform1f(uChars, atlas.count);
